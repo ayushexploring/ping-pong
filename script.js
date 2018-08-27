@@ -1,97 +1,107 @@
-// console.log('script loaded');
-// var boxTop = document.querySelector('#top-bar');
-// var boxBottom = document.querySelector('#bottom-bar');
-// var box = document.querySelector('#disc');
-// document.addEventListener('keypress', function()
-// {
-// 	//console.log(event.key);
-// 	//console.log(box.style.top, bx.style.left);
-// 	let boxUp = boxTop.getBoundingClientRect();
-// 	let boxDown = boxBottom.getBoundingClientRect();
-// 	if(event.key == '9' && (boxUp.x + boxUp.width < window.innerWidth))
-// 	{
-// 		boxTop.style.left = (boxUp.x + 20);
-// 	}
-// 	if(event.key == '7' && boxUp.x > 0)
-// 	{
-// 		boxTop.style.left = (boxUp.x - 20);
-// 	}
-// 	if(event.key == '3' && (boxDown.x + boxDown.width < window.innerWidth))
-// 	{
-// 		boxBottom.style.left = (boxDown.x + 20);
-// 	}
-// 	if(event.key == '1' && boxDown.x > 0)
-// 	{
-// 		boxBottom.style.left = (boxDown.x - 20);
-// 	}
-// });
+$(function () {
 
-// function catchMeIfYouCan(){
+    var anim_id;
 
-// 	function randomGenerator(upper, lower){
-// 		console.log('upper',upper);
-// 		console.log('lower',lower);
-// 		z=Math.floor((Math.random() * (upper - lower)) + lower);
-// 		console.log(z);
-// 		return Math.floor((Math.random() * (upper - lower)) + lower);
-// 	}
+    //saving dom objects to variables
+    var container = $('#container');
+    var ball = $('#ball');
+    var paddle = $('.paddle');
+    var paddle_1 = $('#paddle_1');
+    var paddle_2 = $('#paddle_2');
+    var restart_btn = $('#restart');
 
-// 	var movement;
-// 	box.addEventListener('click', function(){
-// 		// let mouseX = event.clientX;
-// 		// let mouseY = event.clientY;
-// 		clearInterval(movement);
-// 		let boxX = box.getBoundingClientRect().x;
-// 		let boxY = box.getBoundingClientRect().y;
+    //saving some initial setup
+    var container_width = parseInt(container.width());
+    var container_height = parseInt(container.height());
+    var paddle_width = parseInt(paddle.width());
+    var ball_height = parseInt(ball.height());
+    var ball_width = parseInt(ball.width());
 
-// 		let newX = randomGenerator(0, window.innerWidth);
+    //some other declarations
+    var game_over = false;
 
-// 		let newY = randomGenerator(0, window.innerHeight);
+    var ball_center;
+    var paddle_center;
 
-// 		let moveX = 1;
-// 		let moveY = 1;
+    var ball_go = 'down';
+    var ball_right_left = 'right';
 
-// 		if (newX < boxX){
-// 			moveX = -1;
-// 		}
+    var top = 6;
+    var right_left_angle = 0;
 
-// 		if (newY < boxY){
-// 			moveY = -1;
-// 		}
+    var move_right_p1 = false;
+    var move_left_p1 = false;
 
+    var move_right_p2 = false;
+    var move_left_p2 = false;
 
+    var who_won;
 
-// 		movement = setInterval(function(){
-// 			boxX += moveX;
-// 			boxY += moveY;
-// 			box.style.left = boxX + 'px';
-// 			box.style.top = boxY + 'px';
-// 			if(boxX >= window.innerHeight){
-// 				console.log('ball hits the wall');
-// 				let newX = randomGenerator(window.innerWidth, 0);
-// 				let newY = randomGenerator(window.innerHeight, 0);
-// 			// let newX = randomGenerator().x;
-// 			// let newY = randomGenerator().y;
-// 			// randomGenerator();
-// 			let moveX = -1;
-// 		let moveY = -1;
+/* --------------------------GAME CODE START---------------------------------*/
 
-// 		if (newX < boxX){
-// 			moveX = 1;
-// 		}
+    $(document).on('keydown', function(e){
+        var key = e.keyCode;
+        if (key == 37 && move_left_p1 == false){
+            move_left_p1 = requestAnimationFrame(left_p1);
+        } 
+        else if (key == 39 && move_right_p1 == false){
+            move_right_p1 = requestAnimationFrame(right_p1);
+        }
+        else if (key == 65 && move_left_p2 == false){
+            move_left_p2 = requestAnimationFrame(left_p2);
+        } 
+        else if (key == 83 && move_right_p2 == false){
+            move_right_p2 = requestAnimationFrame(right_p2);
+        }   
+    });
 
-// 		if (newY < boxY){
-// 			moveY = 1;
-// 		}
-// 		}
+    $(document).on('keyup', function(e){
+        var key = e.keyCode;
+        if (key == 37){
+            cancelAnimationFrame(move_left_p1);
+            move_left_p1 = false;
+        }
+        else if (key == 39){
+            cancelAnimationFrame(move_right_p1);
+            move_right_p1 = false;
+        }
+        else if (key == 65){
+            cancelAnimationFrame(move_left_p2);
+            move_left_p2 = false;
+        }
+        else if (key == 83){
+            cancelAnimationFrame(move_right_p2);
+            move_right_p2 = false;
+        }
+    });
 
+    function left_p1(){
+        if(parseInt(paddle_1.css('left')) > 0){
+            paddle_1.css('left', parseInt(paddle_1.css('left')) - 20);
+            move_left_p1 = requestAnimationFrame(left_p1);
+        }
+    }
 
-// 		}, 10);
-// 		// box.style.left = newX + 'px';
-// 		// box.style.top = newY + 'px';
+    function right_p1(){
+        if(parseInt(paddle_1.css('left')) < container_width - paddle_width){
+            paddle_1.css('left', parseInt(paddle_1.css('left')) + 20);
+            move_right_p1 = requestAnimationFrame(right_p1);
+        }
+    }
 
-// 	});
+    function left_p2(){
+        if(parseInt(paddle_2.css('left')) > 0){
+            paddle_2.css('left', parseInt(paddle_2.css('left')) - 20);
+            move_left_p2 = requestAnimationFrame(left_p2);
+        }
+    }
 
-// }
+    function right_p2(){
+        if(parseInt(paddle_2.css('left')) < container_width - paddle_width){
+            paddle_2.css('left', parseInt(paddle_2.css('left')) + 20);
+            move_right_p2 = requestAnimationFrame(right_p2);
+        }
+    }
+/* --------------------------GAME CODE END---------------------------------*/
 
-// catchMeIfYouCan();
+});
