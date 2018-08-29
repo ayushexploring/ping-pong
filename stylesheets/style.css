@@ -1,0 +1,92 @@
+body{
+	/*background-image: linear-gradient(to right top, #051937, #004d69, #20868a, #79be9d, #def2b2);*/
+	background-image: url(../images/sun-pattern.png);
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	background-color: white;
+}
+
+#heading{
+	margin-top: 20px;
+	text-align: center;
+	font-family: serif;
+}
+
+#container{
+	position: relative;
+	height: 70%;
+	width: 94%;
+	margin-left: 3%;
+	background-color: black;
+	margin-top: 1%;
+	overflow: hidden;
+	border-radius: 10px;
+	background-image: url(../images/faizal.jpg);
+	background-size: cover;
+}
+
+#ball{
+	position: absolute;
+	height: 40px;
+	width: 40px;
+	background-color: white;
+	top: 50%;
+	left: 50%;
+	border-radius: 50px;
+}
+
+img{
+	height: inherit;
+	width: inherit;
+}
+
+.paddle{
+	position: absolute;
+	height: 40px;
+	width: 20%;
+	background-color: white;
+	left: 40%;
+	border-radius: 50px;
+	text-align: center;
+	font-size: 20px;
+}
+
+.paddle h1{
+	margin-top: 0;
+}
+
+#paddle_1{
+	bottom: 0;
+}
+
+#paddle_2{
+	top: 0;
+}
+
+#restart_div{
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	/*background-color: blueviolet;*/
+	color: black;
+	font-family: sans-serif;
+	font-size: 40px;
+	text-align: center;
+	display: none;
+	background-image: url(../images/sardar.jpg);
+	background-size: cover;
+}
+#restart{
+	border: none;
+	padding: 25px;
+	color: black;
+	background-color: #c72525;
+	font-size: 20px;
+}
+#info{
+	text-align: center;
+	margin-top: 25px;
+	font-size: 25px;
+	color: black;
+}
